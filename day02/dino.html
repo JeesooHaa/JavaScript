@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style>
+      .bg {
+        background-color: #f7f7f7;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg">
+      <img
+        id="dino"
+        width="100px"
+        height="100px"
+        src="https://is4-ssl.mzstatic.com/image/thumb/Purple118/v4/88/e5/36/88e536d4-8a08-7c3b-ad29-c4e5dabc9f45/AppIcon-1x_U007emarketing-sRGB-85-220-0-6.png/246x0w.jpg"
+        alt="dino"
+        style="position: absolute; top: 100px; left: 100px"
+      />
+    </div>
+
+    <script>
+      const bg = document.querySelector('div.bg')
+      const dino = bg.querySelector('#dino')
+
+      // 대상에 요소 삭제 
+      // dino.remove() // 대상을 직접 삭제
+      // bg.firstElementChild.remove() // 첫번째 자식 삭제
+      // bg.lastElementChild.remove() // 마지막 자식 삭제
+      // bg.removeChild(dino) // 특정 자식 삭제 
+
+      // 실습 : body 에 자식 element 가 하나도 없을 때까지 자식 element 를 삭제하는 코드를 작성하세요!
+      // 힌트 : while => 반복문 진행 
+
+      // const body = document.querySelector('body')
+      // // const body = document.body
+      // // document.body 
+      // while (body.firstElementChild !== null) {
+      //   body.firstElementChild.remove()
+      // }
+
+      // // 보여주는 화면에서만 사라짐 
+      // // 안에 다 있음 
+      // const a = 1
+      // const b = 2
+      // console.log(a+b)
+      // // 안에 다 살아있기 때문에
+      // // remove 해도 밑에 다 실행됨 
+
+      // // 새로운 요소 생성
+      // // document.createElemnt 
+      // // dino.remove()
+      // const newDino = document.createElement('img')
+      // newDino.id = 'newDino'
+      // newDino.src = 'https://store-images.s-microsoft.com/image/apps.38351.14426311725358695.736eb785-1d29-478c-a909-1900849773e9.4247f5ee-1daa-4c97-96c2-23868f1fbc45?mode=scale&q=90&h=200&w=200&background=%230078D7'
+      // newDino.alt = 'dino'
+
+      // // 대상에 요소 추가하기 
+      // bg.appendChild(newDino) // 가장 마지막에 추가 
+      // // bg.insertBefore(newDino, bg.firstElementChild) // 가장 처음에 추가
+
+      // 이벤트 리스너 
+
+      // dino.addEventListener('click', () => {
+      //   console.log('아야!')
+      // })
+
+      dino.addEventListener('click', event => {
+        console.log(event)
+      })
+
+      let bottom = 1
+      let up = 1
+      let right = 1
+      let left = 1
+
+      let topNumber = 100
+      let leftNumber = 100
+      document.addEventListener('keydown', event => {
+        // 방향키를 눌렀을 때만 event 를 출력할 수 있도록 조건문을 작성하세요 
+        if (event.key === 'ArrowUp') {
+          console.log('위')
+          topNumber -= 1
+          dino.style.top = `${topNumber}px`
+          // dino.style.marginBottom = `${bottom * 20}px`
+          // bottom += 1
+        } else if (event.key === 'ArrowDown') {
+          console.log('아래')
+          topNumber += 1
+          dino.style.top = `${topNumber}px`
+          // dino.style.marginTop = `${up * 20}px`
+          // up += 1
+        } else if (event.key === 'ArrowLeft') {
+          console.log('왼쪽')
+          leftNumber -= 1
+          dino.style.left = `${leftNumber}px`
+          // dino.style.marginRight = `${right * 20}px`
+          // right += 1
+        } else if (event.key === 'ArrowRight') {
+          console.log('오른쪽')
+          leftNumber += 1
+          dino.style.left = `${leftNumber}px`
+          // dino.style.marginLeft = `${left * 20}px`
+          // left += 1
+        } 
+      })
+      
+      // dino.style.position = 'absolute'
+
+      dino.addEventListener('mouseover', () => {
+        console.log('마우스 올라감')
+        const newWidth = window.innerWidth * Math.random()
+        const newHeight = window.innerHeight * Math.random()
+        dino.style.left = newWidth + 'px'
+        dino.style.top = newHeight + 'px'
+      })
+
+    </script>
+  </body>
+</html>

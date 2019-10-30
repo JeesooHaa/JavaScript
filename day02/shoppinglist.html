@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Shopping List</title>
+</head>
+<body>
+  <h1>My shopping list</h1>
+  <div>
+    Enter a new item:
+    <input type="text" id="input">
+    <button id="addItem">Add item</button>
+  </div>
+  <ul>
+
+  </ul>
+  <script>
+    const addItem = document.querySelector('#addItem')
+    const ul = document.querySelector('ul')
+    // let comments = []
+    let commentId = 1
+
+    addItem.addEventListener('click', event => {
+      let input = document.querySelector('#input')
+      const newComment = document.createElement('li')
+      newComment.id = `${commentId}`
+      newComment.innerText = input.value
+      ul.appendChild(newComment)
+
+      const deleteButton = document.createElement('button')
+      deleteButton.id = `${commentId}번`
+      // deleteButton.class = 'deleteButton'
+      deleteButton.innerText = 'Delete'
+      // 이래야 옆에 붙음 
+      newComment.appendChild(deleteButton)
+      // comments.push(input.value)
+      // console.log(comments)
+      input.value = ""
+      commentId += 1
+      
+      deleteButton.addEventListener('click', event => {
+        newComment.remove()
+      })
+    })
+
+    // const deleteButton = document.querySelector('#1번')
+    // console.log(deleteButton)
+    // if (deleteButton) {
+    //   console.log(deleteButton)
+    //     deleteButton.addEventListener('click', event => {
+    //       console.log(deleteButton)
+    //       // console.log(event)
+    //   })
+    // }
+
+
+    // console.log(comments)
+    
+    // for (comment in comments) {
+    //   const newComment = document.createElement('li')
+    //   console.log(comment)
+    //   newComment.innerText = commnet
+    //   console.log(newComment)
+    //   ul.appendChild(newComment)
+    // }
+
+  </script>
+</body>
+</html>
