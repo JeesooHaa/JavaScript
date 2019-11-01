@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- Axios -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <title>Momentum</title>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+
+    /* body {
+      background-image: url(bg.jpg);
+    } */
+  </style>
+</head>
+<body>
+  <div class="container" id="content">
+    <input type="text" id="input">
+    <button id="make-todo-btn">Make TODO</button>
+    <ul></ul>
+  </div>
+
+  <script>
+    // API URL
+    const BG_API_URL = 'https://source.unsplash.com/1920x1080/'
+    const body = document.querySelector('body')
+    const content = document.querySelector('#content')
+
+    // Backgruound image 를 가져온다.
+    axios.get(BG_API_URL)
+      .then(function(response) {
+        const bgUrl = response.request.responseURL
+        body.style.backgroundImage = `url(${bgUrl})`
+      })
+
+    // 시간 만들기
+    const timeH1 = document.createElement('h1')
+    const time = function() {
+      const timeStr = new Date().toLocaleTimeString()
+      timeH1.innerText = timeStr
+      timeH1.style.color = `white`
+      timeH1.classList.add('text-center')
+    }
+    content.appendChild(timeH1)
+
+    // 시간이 흐르도록 
+    setInterval(time, 1000)
+
+    // todo list 만들기 
+    const makeTodo = document.querySelector('#make-todo-btn')
+    const ul = document.querySelector('ul')
+
+    makeTodo.addEventListener('click', function(evnet) {
+      // todo list 에 새로운 내용 추가 
+      const input = document.querySelector('#input')
+      const newTodo = document.createElement('li')
+      newTodo.innerText = input.value
+      ul.appendChild(newTodo)
+      input.value = ''
+
+      // todo list 삭제 기능 
+      const deleteBtn = document.createElement('button')
+      deleteBtn.innerText = 'Delete'
+      newTodo.appendChild(deleteBtn)
+      deleteBtn.addEventListener('click', function(event) {
+        newTodo.remove()
+      })
+    })
+
+    // 날씨 정보 만들기
+    const airQualityH1 = document.createElement('h1')
+    const tempH1 = document.createElement('h1')
+
+    // 대기오염
+    const AIR_QUALITY_URL = 'https://api.aerisapi.com/airquality/seoul,korea?&format=json&client_id=Qf3Ai9w6euJPWiSuNDxrj&client_secret=3w6165xP9NANzLGv3OiUUz0b6L5YIT7KprnKFaRn'
+    axios.get(AIR_QUALITY_URL)
+      .then(function(response) {
+        const airQuality = JSON.parse(response.request.response).response[0].periods[0].aqi
+        const airQualityCategory = JSON.parse(response.request.response).response[0].periods[0].category
+        const airQualityColor = JSON.parse(response.request.response).response[0].periods[0].color
+        airQualityH1.innerText = `서울의 공기 오염도 : ${airQuality} ${airQualityCategory}`
+        // 안되는듯...
+        airQualityH1.style.color = `${airQualityColor}`
+        airQualityH1.classList.add('text-center')
+        content.appendChild(airQualityH1)
+      })
+
+    // 온도
+    const TEMP_URL = 'https://api.aerisapi.com/observations/summary/seoul,korea?&format=json&from=11/01/2019&filter=allstations&limit=1&client_id=Qf3Ai9w6euJPWiSuNDxrj&client_secret=3w6165xP9NANzLGv3OiUUz0b6L5YIT7KprnKFaRn'
+    axios.get(TEMP_URL)
+      .then(function(response) {
+        const maxC = JSON.parse(response.request.response).response[0].periods[0].summary.temp.maxC
+        const minC = JSON.parse(response.request.response).response[0].periods[0].summary.temp.minC
+        tempH1.innerText = `최고기온 : ${maxC} / 최저기온 : ${minC}`
+        tempH1.style.color = `white`
+        tempH1.classList.add('text-center')
+        content.appendChild(tempH1)
+      })
+
+  </script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
